@@ -37,7 +37,7 @@ In this project i used following tech stacks
 * Maven
 
 ## System Architecture
-(![Financial-Tracker](Financial-tracker.png))
+![Financial-Tracker](Financial-tracker.png)
 
 ### Installation
 
