@@ -37,50 +37,7 @@ In this project i used following tech stacks
 * Maven
 
 ## System Architecture
-┌─────────────────────────────────────────────────┐
-│                    CLIENT                        │
-└─────────────────────┬───────────────────────────┘
-│ HTTP Request
-▼
-┌─────────────────────────────────────────────────┐
-│              API GATEWAY SERVICE                 │
-│         JWT Validation · Rate Limiting           │
-│              Centralized Routing                 │
-└──────┬──────────────┬──────────────┬────────────┘
-│              │              │
-▼              ▼              ▼
-┌──────────┐   ┌──────────┐   ┌──────────┐
-│  USER    │   │ EXPENSE  │   │ INCOME   │
-│ SERVICE  │   │ SERVICE  │   │ SERVICE  │
-│          │   │          │   │          │
-│ Register │   │   CRUD   │   │   CRUD   │
-│  Login   │   │ Expenses │   │  Income  │
-│  JWT     │   │          │   │          │
-└──────────┘   └────┬─────┘   └──────────┘
-│
-│ Publishes event when
-│ budget limit exceeded
-▼
-┌─────────────┐
-│  RabbitMQ   │
-│   Broker    │
-└──────┬──────┘
-│ Consumes event
-│ (Manual ACK +
-│  Idempotency check)
-▼
-┌───────────────────────┐
-│   ANALYTICS SERVICE   │
-│                       │
-│ · Budget analysis     │
-│ · Idempotent consumer │
-│ · Email notification  │
-│ · Weekly/monthly view │
-└───────────────────────┘
-
-Infrastructure: Docker Compose · MySQL (per service)
-Discovery:      Netflix Eureka · OpenFeign
-CI/CD:          GitHub Actions · Qodana
+(![Financial-Tracker](Financial-tracker.png))
 
 ### Installation
 
@@ -97,12 +54,3 @@ CI/CD:          GitHub Actions · Qodana
    #4. Start all the services with Docker compose
    docker-compose up --build
 ```
-
-| Service | Port |
-|---|---|
-| API Gateway | 8080 |
-| User Service | 8081 |
-| Expense Service | 8082 |
-| Income Service | 8083 |
-| Analytics Service | 8084 |
-| RabbitMQ Console | 15672 |
